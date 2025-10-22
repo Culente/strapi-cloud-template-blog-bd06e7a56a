@@ -63,6 +63,14 @@
       },
       "component": "shared.test-conents",
       "repeatable": true
+    },
+    "SortOrder": {
+      "type": "integer",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

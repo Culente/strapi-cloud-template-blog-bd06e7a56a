@@ -1,9 +1,9 @@
 {
   "info": {
-    "name": "Strapi Demo Project API",
-    "description": "基于Strapi演示项目的API集合，包含文章、作者、分类、全局设置等接口",
+    "name": "Strapi News & Test-Single-Type API",
+    "description": "基于Strapi项目的API集合，主要包含新闻(news)和测试单例类型(test-single-type)接口，支持多语言和动态内容",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "auth": {
     "type": "bearer",
@@ -29,17 +29,17 @@
   ],
   "item": [
     {
-      "name": "Articles (文章)",
+      "name": "News (新闻)",
       "item": [
         {
-          "name": "获取文章列表",
+          "name": "获取新闻列表",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles?populate=*&sort=publishedAt:desc&pagination[page]=1&pagination[pageSize]=10",
+              "raw": "{{base_url}}/api/newses?populate=*&sort=publishDate:desc&pagination[page]=1&pagination[pageSize]=10",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
+              "path": ["api", "newses"],
               "query": [
                 {
                   "key": "populate",
@@ -47,7 +47,7 @@
                 },
                 {
                   "key": "sort",
-                  "value": "publishedAt:desc"
+                  "value": "publishDate:desc"
                 },
                 {
                   "key": "pagination[page]",
@@ -62,14 +62,14 @@
           }
         },
         {
-          "name": "获取文章详情",
+          "name": "获取新闻详情",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles/1?populate=*",
+              "raw": "{{base_url}}/api/newses/1?populate=*",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles", "1"],
+              "path": ["api", "newses", "1"],
               "query": [
                 {
                   "key": "populate",
@@ -80,88 +80,70 @@
           }
         },
         {
-          "name": "通过Slug获取文章",
+          "name": "多语言新闻列表",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles?filters[slug][$eq]=article-slug&populate=*",
+              "raw": "{{base_url}}/api/newses?locale=zh&populate=*&sort=publishDate:desc",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
+              "path": ["api", "newses"],
               "query": [
                 {
-                  "key": "filters[slug][$eq]",
-                  "value": "article-slug"
+                  "key": "locale",
+                  "value": "zh"
                 },
                 {
                   "key": "populate",
                   "value": "*"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "按分类筛选文章",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/articles?filters[category][name][$eq]=技术&populate=cover,author,category&sort=publishedAt:desc",
-              "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
-              "query": [
-                {
-                  "key": "filters[category][name][$eq]",
-                  "value": "技术"
-                },
-                {
-                  "key": "populate",
-                  "value": "cover,author,category"
                 },
                 {
                   "key": "sort",
-                  "value": "publishedAt:desc"
+                  "value": "publishDate:desc"
                 }
               ]
             }
           }
         },
         {
-          "name": "按作者筛选文章",
+          "name": "按发布日期筛选新闻",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles?filters[author][name][$eq]=作者姓名&populate=cover,category&sort=publishedAt:desc",
+              "raw": "{{base_url}}/api/newses?filters[publishDate][$gte]=2024-01-01&filters[publishDate][$lte]=2024-12-31&populate=*&sort=publishDate:desc",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
+              "path": ["api", "newses"],
               "query": [
                 {
-                  "key": "filters[author][name][$eq]",
-                  "value": "作者姓名"
+                  "key": "filters[publishDate][$gte]",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "filters[publishDate][$lte]",
+                  "value": "2024-12-31"
                 },
                 {
                   "key": "populate",
-                  "value": "cover,category"
+                  "value": "*"
                 },
                 {
                   "key": "sort",
-                  "value": "publishedAt:desc"
+                  "value": "publishDate:desc"
                 }
               ]
             }
           }
         },
         {
-          "name": "搜索文章",
+          "name": "搜索新闻标题",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles?filters[title][$containsi]=关键词&populate=cover,author,category",
+              "raw": "{{base_url}}/api/newses?filters[title][$containsi]=关键词&populate=*&sort=publishDate:desc",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
+              "path": ["api", "newses"],
               "query": [
                 {
                   "key": "filters[title][$containsi]",
@@ -169,14 +151,18 @@
                 },
                 {
                   "key": "populate",
-                  "value": "cover,author,category"
+                  "value": "*"
+                },
+                {
+                  "key": "sort",
+                  "value": "publishDate:desc"
                 }
               ]
             }
           }
         },
         {
-          "name": "创建文章",
+          "name": "创建新闻",
           "request": {
             "method": "POST",
             "header": [
@@ -187,17 +173,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"title\": \"新文章标题\",\n    \"description\": \"文章描述\",\n    \"slug\": \"new-article-slug\",\n    \"author\": 1,\n    \"category\": 1,\n    \"blocks\": [\n      {\n        \"__component\": \"shared.rich-text\",\n        \"body\": \"<p>文章内容</p>\"\n      }\n    ],\n    \"publishedAt\": \"2024-01-01T00:00:00.000Z\"\n  }\n}"
+              "raw": "{\n  \"data\": {\n    \"title\": \"新闻标题\",\n    \"content\": [\n      {\n        \"__component\": \"shared.rich-text\",\n        \"body\": \"<p>新闻内容</p>\"\n      }\n    ],\n    \"publishDate\": \"2024-01-01\",\n    \"comp\": [\n      {\n        \"title\": \"组件标题\",\n        \"desc\": \"组件描述\"\n      }\n    ],\n    \"publishedAt\": \"2024-01-01T00:00:00.000Z\"\n  }\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/articles",
+              "raw": "{{base_url}}/api/newses",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles"]
+              "path": ["api", "newses"]
             }
           }
         },
         {
-          "name": "更新文章",
+          "name": "更新新闻",
           "request": {
             "method": "PUT",
             "header": [
@@ -208,63 +194,41 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"title\": \"更新后的标题\",\n    \"description\": \"更新后的描述\"\n  }\n}"
+              "raw": "{\n  \"data\": {\n    \"title\": \"更新后的新闻标题\",\n    \"publishDate\": \"2024-01-02\"\n  }\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/articles/1",
+              "raw": "{{base_url}}/api/newses/1",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles", "1"]
+              "path": ["api", "newses", "1"]
             }
           }
         },
         {
-          "name": "删除文章",
+          "name": "删除新闻",
           "request": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles/1",
+              "raw": "{{base_url}}/api/newses/1",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles", "1"]
+              "path": ["api", "newses", "1"]
             }
           }
         }
       ]
     },
     {
-      "name": "Authors (作者)",
+      "name": "Test-Single-Type (测试单例类型)",
       "item": [
         {
-          "name": "获取作者列表",
+          "name": "获取测试单例类型",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/authors?populate=*&sort=name:asc",
+              "raw": "{{base_url}}/api/test-single-type?populate=*",
               "host": ["{{base_url}}"],
-              "path": ["api", "authors"],
-              "query": [
-                {
-                  "key": "populate",
-                  "value": "*"
-                },
-                {
-                  "key": "sort",
-                  "value": "name:asc"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "获取作者详情",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/authors/1?populate=*",
-              "host": ["{{base_url}}"],
-              "path": ["api", "authors", "1"],
+              "path": ["api", "test-single-type"],
               "query": [
                 {
                   "key": "populate",
@@ -275,179 +239,7 @@
           }
         },
         {
-          "name": "获取作者的文章",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/authors/1?populate[articles][populate]=cover,category&populate[articles][sort]=publishedAt:desc",
-              "host": ["{{base_url}}"],
-              "path": ["api", "authors", "1"],
-              "query": [
-                {
-                  "key": "populate[articles][populate]",
-                  "value": "cover,category"
-                },
-                {
-                  "key": "populate[articles][sort]",
-                  "value": "publishedAt:desc"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "创建作者",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"name\": \"新作者\",\n    \"email\": \"author@example.com\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/authors",
-              "host": ["{{base_url}}"],
-              "path": ["api", "authors"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Categories (分类)",
-      "item": [
-        {
-          "name": "获取分类列表",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/categories?populate=*&sort=name:asc",
-              "host": ["{{base_url}}"],
-              "path": ["api", "categories"],
-              "query": [
-                {
-                  "key": "populate",
-                  "value": "*"
-                },
-                {
-                  "key": "sort",
-                  "value": "name:asc"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "获取分类详情",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/categories/1?populate=*",
-              "host": ["{{base_url}}"],
-              "path": ["api", "categories", "1"],
-              "query": [
-                {
-                  "key": "populate",
-                  "value": "*"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "获取分类的文章",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/categories/1?populate[articles][populate]=cover,author&populate[articles][sort]=publishedAt:desc",
-              "host": ["{{base_url}}"],
-              "path": ["api", "categories", "1"],
-              "query": [
-                {
-                  "key": "populate[articles][populate]",
-                  "value": "cover,author"
-                },
-                {
-                  "key": "populate[articles][sort]",
-                  "value": "publishedAt:desc"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "创建分类",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"name\": \"新分类\",\n    \"slug\": \"new-category\",\n    \"description\": \"分类描述\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/categories",
-              "host": ["{{base_url}}"],
-              "path": ["api", "categories"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Global (全局设置)",
-      "item": [
-        {
-          "name": "获取全局设置",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/global?populate=*",
-              "host": ["{{base_url}}"],
-              "path": ["api", "global"],
-              "query": [
-                {
-                  "key": "populate",
-                  "value": "*"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "获取SEO设置",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/global?populate[defaultSeo][populate]=*",
-              "host": ["{{base_url}}"],
-              "path": ["api", "global"],
-              "query": [
-                {
-                  "key": "populate[defaultSeo][populate]",
-                  "value": "*"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "更新全局设置",
+          "name": "更新测试单例类型",
           "request": {
             "method": "PUT",
             "header": [
@@ -458,40 +250,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"siteName\": \"更新后的网站名称\",\n    \"siteDescription\": \"更新后的网站描述\"\n  }\n}"
+              "raw": "{\n  \"data\": {\n    \"title\": \"更新后的测试标题\"\n  }\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/global",
+              "raw": "{{base_url}}/api/test-single-type",
               "host": ["{{base_url}}"],
-              "path": ["api", "global"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "About (关于页面)",
-      "item": [
-        {
-          "name": "获取关于页面",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/about?populate[blocks][populate]=*",
-              "host": ["{{base_url}}"],
-              "path": ["api", "about"],
-              "query": [
-                {
-                  "key": "populate[blocks][populate]",
-                  "value": "*"
-                }
-              ]
+              "path": ["api", "test-single-type"]
             }
           }
         },
         {
-          "name": "更新关于页面",
+          "name": "发布测试单例类型",
           "request": {
             "method": "PUT",
             "header": [
@@ -502,119 +271,82 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"data\": {\n    \"title\": \"关于我们\",\n    \"blocks\": [\n      {\n        \"__component\": \"shared.rich-text\",\n        \"body\": \"<p>关于我们的内容</p>\"\n      }\n    ]\n  }\n}"
+              "raw": "{\n  \"data\": {\n    \"title\": \"测试标题\",\n    \"publishedAt\": \"2024-01-01T00:00:00.000Z\"\n  }\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/about",
+              "raw": "{{base_url}}/api/test-single-type",
               "host": ["{{base_url}}"],
-              "path": ["api", "about"]
+              "path": ["api", "test-single-type"]
             }
           }
         }
       ]
     },
     {
-      "name": "Media (媒体文件)",
+      "name": "Shared Components (共享组件)",
       "item": [
         {
-          "name": "获取媒体文件列表",
+          "name": "获取Test-Contents组件",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/upload/files?sort=createdAt:desc&pagination[page]=1&pagination[pageSize]=20",
+              "raw": "{{base_url}}/api/components/shared/test-conents",
               "host": ["{{base_url}}"],
-              "path": ["api", "upload", "files"],
-              "query": [
-                {
-                  "key": "sort",
-                  "value": "createdAt:desc"
-                },
-                {
-                  "key": "pagination[page]",
-                  "value": "1"
-                },
-                {
-                  "key": "pagination[pageSize]",
-                  "value": "20"
-                }
-              ]
+              "path": ["api", "components", "shared", "test-conents"]
             }
           }
         },
         {
-          "name": "上传媒体文件",
+          "name": "获取所有共享组件",
           "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "files",
-                  "type": "file",
-                  "src": []
-                },
-                {
-                  "key": "fileInfo",
-                  "value": "{\"alternativeText\":\"图片描述\",\"caption\":\"图片标题\"}",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/upload",
-              "host": ["{{base_url}}"],
-              "path": ["api", "upload"]
-            }
-          }
-        },
-        {
-          "name": "删除媒体文件",
-          "request": {
-            "method": "DELETE",
+            "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/upload/files/1",
+              "raw": "{{base_url}}/api/components",
               "host": ["{{base_url}}"],
-              "path": ["api", "upload", "files", "1"]
+              "path": ["api", "components"]
             }
           }
         }
       ]
     },
     {
-      "name": "Advanced Queries (高级查询)",
+      "name": "Advanced News Queries (高级新闻查询)",
       "item": [
         {
-          "name": "复杂过滤查询",
+          "name": "多语言新闻复杂查询",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles?filters[$and][0][publishedAt][$notNull]=true&filters[$and][1][category][name][$eq]=技术&filters[$and][2][title][$containsi]=React&populate=*&sort=publishedAt:desc&pagination[page]=1&pagination[pageSize]=5",
+              "raw": "{{base_url}}/api/newses?locale=zh&filters[$and][0][publishDate][$gte]=2024-01-01&filters[$and][1][title][$containsi]=重要&populate[cover]=*&populate[comp][populate]=*&sort=publishDate:desc&pagination[page]=1&pagination[pageSize]=5",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
+              "path": ["api", "newses"],
               "query": [
                 {
-                  "key": "filters[$and][0][publishedAt][$notNull]",
-                  "value": "true"
+                  "key": "locale",
+                  "value": "zh"
                 },
                 {
-                  "key": "filters[$and][1][category][name][$eq]",
-                  "value": "技术"
+                  "key": "filters[$and][0][publishDate][$gte]",
+                  "value": "2024-01-01"
                 },
                 {
-                  "key": "filters[$and][2][title][$containsi]",
-                  "value": "React"
+                  "key": "filters[$and][1][title][$containsi]",
+                  "value": "重要"
                 },
                 {
-                  "key": "populate",
+                  "key": "populate[cover]",
+                  "value": "*"
+                },
+                {
+                  "key": "populate[comp][populate]",
                   "value": "*"
                 },
                 {
                   "key": "sort",
-                  "value": "publishedAt:desc"
+                  "value": "publishDate:desc"
                 },
                 {
                   "key": "pagination[page]",
@@ -629,44 +361,14 @@
           }
         },
         {
-          "name": "日期范围查询",
+          "name": "新闻字段选择查询",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/articles?filters[publishedAt][$gte]=2024-01-01&filters[publishedAt][$lte]=2024-12-31&populate=cover,author,category&sort=publishedAt:desc",
+              "raw": "{{base_url}}/api/newses?fields[0]=title&fields[1]=publishDate&populate[cover][fields][0]=url&populate[cover][fields][1]=alternativeText&populate[comp][fields][0]=title&populate[comp][fields][1]=desc&sort=publishDate:desc",
               "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
-              "query": [
-                {
-                  "key": "filters[publishedAt][$gte]",
-                  "value": "2024-01-01"
-                },
-                {
-                  "key": "filters[publishedAt][$lte]",
-                  "value": "2024-12-31"
-                },
-                {
-                  "key": "populate",
-                  "value": "cover,author,category"
-                },
-                {
-                  "key": "sort",
-                  "value": "publishedAt:desc"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "字段选择查询",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/articles?fields[0]=title&fields[1]=description&fields[2]=slug&fields[3]=publishedAt&populate[cover][fields][0]=url&populate[author][fields][0]=name&populate[category][fields][0]=name",
-              "host": ["{{base_url}}"],
-              "path": ["api", "articles"],
+              "path": ["api", "newses"],
               "query": [
                 {
                   "key": "fields[0]",
@@ -674,27 +376,27 @@
                 },
                 {
                   "key": "fields[1]",
-                  "value": "description"
-                },
-                {
-                  "key": "fields[2]",
-                  "value": "slug"
-                },
-                {
-                  "key": "fields[3]",
-                  "value": "publishedAt"
+                  "value": "publishDate"
                 },
                 {
                   "key": "populate[cover][fields][0]",
                   "value": "url"
                 },
                 {
-                  "key": "populate[author][fields][0]",
-                  "value": "name"
+                  "key": "populate[cover][fields][1]",
+                  "value": "alternativeText"
                 },
                 {
-                  "key": "populate[category][fields][0]",
-                  "value": "name"
+                  "key": "populate[comp][fields][0]",
+                  "value": "title"
+                },
+                {
+                  "key": "populate[comp][fields][1]",
+                  "value": "desc"
+                },
+                {
+                  "key": "sort",
+                  "value": "publishDate:desc"
                 }
               ]
             }
@@ -704,3 +406,5 @@
     }
   ]
 }
+
+
